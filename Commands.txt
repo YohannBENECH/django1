@@ -1,0 +1,23 @@
+
+
+# Create an app
+python manage.py startapp lycee
+
+# Création d’une migration (à la racine du projet)
+python manage.py makemigrations
+
+# Création des tables de bdd
+python manage.py migrate
+
+# Launch shell for actions
+python manage.py shell
+
+    # Import Models Manually from an existing App
+    from lycee.models import Student,Cursus
+
+
+
+
+
+
+
