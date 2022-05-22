@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+
+{% if liste %}
+    {% block title %}
+        Call roll of {{ cursus_name }}
+    {% endblock %}
+
+    {% block content %}
+    <div>
+        <label for="dateAbsence">Date:</label>
+        <input type="date" id="dateAbsence" name="dateAbsence">
+    </div>
+    <div class="container">
+        {% for student in liste %}
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="checkbox" id="absent" name="absent">
+                    <a for="absent" href="/lycee/students/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a>
+                </div>
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Submit">
+
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+{% else %}
+        <p>Nothing to be shown.</p>
+{% endif %}

@@ -1,0 +1,33 @@
+{% extends "master.html" %}
+
+{% if student %}
+    {% block title %}
+        Student Details
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <label>{{ student.first_name }} {{ student.last_name }}</label>
+            </div>
+            <div class="col-sm-2">
+                <ul>
+                    <li>{{ student.id }}</li>
+                    <li>{{ student.phone }}</li>
+                    <li>{{ student.email }}</li>
+                    <li>{{ student.comments }}</li>
+                </ul>
+            </div>
+        </div>
+        <!--
+        <form action="/lycee/students/edit/{{ student.id }}">
+            <input type="button" value="Edit Student Data">
+        </form>
+        -->
+        <a href="/lycee/students/edit/{{ student.id }}">Edit Student Data</a>
+    </div>
+    {% endblock %}
+{% else %}
+        <p>No student to be shown.</p>
+{% endif %}

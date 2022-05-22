@@ -1,0 +1,21 @@
+{% extends "master.html" %}
+
+{% if liste %}
+    {% block title %}
+        Call roll of {{ cursus_name }}
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        {% for student in liste %}
+            <ul>
+                <li>
+                    <a for="absent" href="/lycee/students/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a>
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+    {% endblock %}
+{% else %}
+        <p>Nothing to be shown.</p>
+{% endif %}

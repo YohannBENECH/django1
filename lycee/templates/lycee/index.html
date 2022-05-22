@@ -1,0 +1,35 @@
+{% extends "master.html" %}
+
+{% if liste %}
+    {% block title %}
+        List of programs
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        {% for cursus in liste %}
+            <div class="row">
+                <div class="col-sm-2">
+                    <a href="lycee/{{ cursus.id }}">{{ cursus.name }}</a>
+                </div>
+
+                <!--<a href="lycee/cursuscall/{{ cursus.id }}">Call a Roll</a>-->
+
+                <form action="lycee/cursuscall/{{ cursus.id }}">
+                    <input type="submit" value="Call a Roll" />
+                </form>
+            </div>
+        {% endfor %}
+
+        <form action="lycee/students/create">
+            <input type="submit" value="Create student"/>
+        </form>
+        <form action="lycee/call">
+            <input type="submit" value="Particular Call Roll"/>
+        </form>
+
+    </div>
+    {% endblock %}
+{% else %}
+        <p>No cursus to show.</p>
+{% endif %}

@@ -29,6 +29,7 @@ class Cursus(models.Model):
     def __str__(self):
         return '{} {}: {}'.format(self.name, self.year_from_bac, self.scholar_year)
 
+
 # ------------------------------------------------------------------
 
 class Student(models.Model):
@@ -82,9 +83,34 @@ class Student(models.Model):
     )
 
     def __str__(self):
-        return self.email
+        return self.first_name + " " + self.last_name
 
 
 # ------------------------------------------------------------------
 
+class CallOfRoll(models.Model):
+    dateOfCall = models.DateField(
+        verbose_name='date of call',
+        blank=False,
+        null=True
+    )
 
+    isMissing = models.BooleanField(
+        null=True
+    )
+
+    reason = models.CharField(
+        verbose_name="reason",
+        blank=True,
+        null=False,  # pas de champ null (a conjuguer avec default
+        default="",
+        max_length=255,  # taille maximale du champ
+    )
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,  # necessaire selon la version de Django
+        null=True
+    )
+
+    def __str__(self):
+        return self.dateOfCall + " " + self.student.first_name + " " + self.student.last_name + " " + self.reason

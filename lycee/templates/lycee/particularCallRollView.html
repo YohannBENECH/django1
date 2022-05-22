@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% if student %}
+    {% block title %}
+        Student Details
+    {% endblock %}
+
+    {% block content %}
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="reset" class="save btn">Reset</button>
+            <button type="submit" class="save btn">Submit</button>
+        </form>
+    {% endblock %}
+
+{% else %}
+    <p>Nothing to be shown.</p>
+{% endif %}
