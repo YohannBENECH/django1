@@ -86,6 +86,7 @@ def studentView(request, studentId):
 
 # ----------------------------------------------------------------------
 def createStudentForm(request):
+
     if request.method == "POST":
         form = StudentForm(request.POST).save()
         return redirect("/lycee/students/create")
@@ -103,28 +104,18 @@ def createStudentForm(request):
 # ----------------------------------------------------------------------
 def editStudentForm(request, studentId):
 
-    if request.method == "PUT":
-        form = StudentForm(request.PUT).save()
-        return redirect("/lycee/students/create")
+    student = Student.objects.get(id=studentId)
 
-    else:
-        student = Student.objects.get(id=studentId)
+    form = StudentForm(request.POST or None, instance=student)
 
-        form = StudentForm(initial={
-            "first_name": student.first_name,
-            "last_name": student.last_name,
-            "birth_date": student.birth_date,
-            "email": student.email,
-            "phone": student.phone,
-            "comments": student.comments,
-            "cursus": student.cursus,
-        })
+    if form.is_valid():
+        form.save()
 
-        context = {
-            "form": form
-        }
+    context = {
+        "form": form
+    }
 
-        return render(request, 'lycee/createStudentForm.html', context)
+    return render(request, 'lycee/createStudentForm.html', context)
 
 
 # ----------------------------------------------------------------------
