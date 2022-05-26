@@ -87,18 +87,16 @@ def studentView(request, studentId):
 # ----------------------------------------------------------------------
 def createStudentForm(request):
 
-    if request.method == "POST":
-        form = StudentForm(request.POST).save()
-        return redirect("/lycee/students/create")
+    form = StudentForm(request.POST or None)
 
-    else:
-        form = StudentForm()
+    if form.is_valid():
+        form.save()
 
-        context = {
-            "form": form
-        }
+    context = {
+        "form": form
+    }
 
-        return render(request, 'lycee/createStudentForm.html', context)
+    return render(request, 'lycee/createStudentForm.html', context)
 
 
 # ----------------------------------------------------------------------

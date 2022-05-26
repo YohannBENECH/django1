@@ -15,15 +15,6 @@
                 <button type="reset" class="save btn">Reset</button>
                 <button type="submit" class="save btn">Submit</button>
             </form>
-
-        {% elif student.first_name == "" %}
-            <form method="PUT" class="post-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-
-                <button type="reset" class="save btn">Reset</button>
-                <button type="submit" class="save btn">Submit</button>
-            </form>
         {% endif %}
 
 
