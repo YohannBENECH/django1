@@ -1,6 +1,7 @@
 from django import forms
 
 from django.forms import ModelForm
+from django.forms import BooleanField
 from .models import Student, CallOfRoll
 
 
@@ -17,6 +18,7 @@ class StudentForm(ModelForm):
             'cursus'
         ]
 
+
 class CallOfRollForm(ModelForm):
     class Meta:
         model = CallOfRoll
@@ -26,3 +28,7 @@ class CallOfRollForm(ModelForm):
             'reason',
             'student'
         ]
+
+
+class CallOfRollSimpleForm(ModelForm):
+    CheckBoxPresent = forms.BooleanField(label='')

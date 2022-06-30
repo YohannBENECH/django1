@@ -1,11 +1,15 @@
+import datetime
+
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Cursus
 from .models import Student
+from .models import CallOfRoll
 from django.template import loader
 from .forms import StudentForm, CallOfRollForm
+
 
 
 # Example Simple Text Page
@@ -54,19 +58,49 @@ def ClassView(request, cursusId):
 
 # ----------------------------------------------------------------------
 def callRollClassroomView(request, cursusId):
-    cursus = Cursus.objects.get(id=cursusId)
 
-    result_list = Student.objects.filter(cursus_id=cursusId)
-    result_list = result_list.order_by('last_name')
+    if request.method == "POST":
+        print(request.POST)
 
-    # Chargement du template
+        # Get the last COR id and increment it by 1
+        callrollList = CallOfRoll.objects.all()
+        callrollList.order_by('id')
+        newCORid = callrollList.last().id + 1
 
-    # Context
-    context = {
-        "liste": result_list,
-        "cursus_name": cursus.name
-    }
-    return render(request, 'lycee/CallRollView.html', context)
+        # For each absent student
+        for student_id in request.POST.getlist('absent'):
+
+            date = request.POST.getlist('dateAbsence')
+            sDate = "".join(date)
+            print("Date input : " + sDate)
+
+            COR = CallOfRoll(
+                newCORid,
+                sDate,
+                True,
+                "Aucun",
+                Student.objects.get(pk=student_id).id
+            )
+            COR.save()
+
+            newCORid = newCORid + 1 # Don t forget it !
+
+        return redirect("/lycee")
+
+    else:
+        cursus = Cursus.objects.get(id=cursusId)
+        student_list = Student.objects.filter(cursus_id=cursusId)
+
+        date_now = str(datetime.date.today())
+
+        # Context
+        context = {
+            "liste": student_list,
+            "cursus_name": cursus.name,
+            "date_now": date_now
+        }
+
+        return render(request, 'lycee/CallRollView.html', context)
 
 
 # ----------------------------------------------------------------------
@@ -89,7 +123,7 @@ def createStudentForm(request):
 
     form = StudentForm(request.POST or None)
 
-    if form.is_valid():
+    if request.method == "POST" and form.is_valid():
         form.save()
 
     context = {

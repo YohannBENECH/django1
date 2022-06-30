@@ -1,21 +1,25 @@
 {% extends "master.html" %}
 
-{% if liste %}
+{% if student %}
     {% block title %}
-        Call roll of {{ cursus_name }}
+        Student Details
     {% endblock %}
 
     {% block content %}
-    <div class="container">
-        {% for student in liste %}
-            <ul>
-                <li>
-                    <a for="absent" href="/lycee/students/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a>
-                </li>
-            </ul>
-        {% endfor %}
-    </div>
+
+        {% if student.first_name != "" %}
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="reset" class="save btn">Reset</button>
+                <button type="submit" class="save btn">Submit</button>
+            </form>
+        {% endif %}
+
+
     {% endblock %}
+
 {% else %}
-        <p>Nothing to be shown.</p>
+    <p>Nothing to be shown.</p>
 {% endif %}

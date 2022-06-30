@@ -6,24 +6,31 @@
     {% endblock %}
 
     {% block content %}
-    <div>
-        <label for="dateAbsence">Date:</label>
-        <input type="date" id="dateAbsence" name="dateAbsence">
-    </div>
-    <div class="container">
-        {% for student in liste %}
-            <div class="row">
-                <div class="col-sm-2">
-                    <input type="checkbox" id="absent" name="absent">
-                    <a for="absent" href="/lycee/students/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a>
-                </div>
+
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+
+            <div>
+                <label for="dateAbsence">Date:</label>
+                <input type="date" id="dateAbsence" name="dateAbsence" value="{{ date_now }}">
             </div>
-        {% endfor %}
+
+            {% for student in liste %}
+                <div class="row">
+                    <div class="col-sm-2">
+                        <input type="checkbox" id="{{ student.id }}" name="absent" value="{{student.id}}">
+                    </div>
+
+                    <div class="col-sm-2">
+                        <a href="/lycee/students/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a>
+                    </div>
+                </div>
+            {% endfor %}
 
 
-        <input type="submit" value="Submit">
+            <input type="submit" value="Submit">
 
-
+        </form>
     {% endblock %}
 {% else %}
         <p>Nothing to be shown.</p>
